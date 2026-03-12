@@ -28,6 +28,12 @@ public class Supplier {
     @Column(columnDefinition = "TEXT")
     private String address;
 
+    @Column(length = 100)
+    private String city;
+
+    @Column(length = 100)
+    private String state;
+
     @Column(name = "gst_number", length = 20)
     private String gstNumber;
 

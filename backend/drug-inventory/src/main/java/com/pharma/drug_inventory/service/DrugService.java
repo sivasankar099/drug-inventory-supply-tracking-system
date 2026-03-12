@@ -12,9 +12,6 @@ public class DrugService {
     @Autowired
     private DrugRepository drugRepository;
 
-    @Autowired
-    private DrugCategoryService drugCategoryService;
-
     public List<Drug> getAllDrugs() {
         return drugRepository.findAll();
     }
@@ -23,39 +20,27 @@ public class DrugService {
         return drugRepository.findByIsActiveTrue();
     }
 
-    public List<Drug> getDrugsByCategory(Long categoryId) {
-        return drugRepository.findByCategoryId(categoryId);
-    }
-
     public Drug getDrugById(Long id) {
         return drugRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Drug not found with id: " + id));
+                .orElseThrow(() -> new RuntimeException("Drug not found"));
     }
 
     public Drug createDrug(Drug drug) {
-        if (drugRepository.existsByName(drug.getName())) {
-            throw new RuntimeException("Drug already exists: " + drug.getName());
-        }
-        drugCategoryService.getCategoryById(drug.getCategory().getId());
         return drugRepository.save(drug);
     }
 
-    public Drug updateDrug(Long id, Drug drug) {
-        Drug existing = getDrugById(id);
-        existing.setName(drug.getName());
-        existing.setGenericName(drug.getGenericName());
-        existing.setManufacturer(drug.getManufacturer());
-        existing.setDosageForm(drug.getDosageForm());
-        existing.setStrength(drug.getStrength());
-        existing.setUnit(drug.getUnit());
-        existing.setHsnCode(drug.getHsnCode());
-        existing.setCategory(drug.getCategory());
-        return drugRepository.save(existing);
+    public Drug updateDrug(Long id, Drug drugDetails) {
+        Drug drug = getDrugById(id);
+        drug.setName(drugDetails.getName());
+        drug.setDescription(drugDetails.getDescription());
+        drug.setManufacturer(drugDetails.getManufacturer());
+        drug.setUnitPrice(drugDetails.getUnitPrice());
+        drug.setCategory(drugDetails.getCategory());
+        drug.setIsActive(drugDetails.getIsActive());
+        return drugRepository.save(drug);
     }
 
     public void deleteDrug(Long id) {
-        Drug existing = getDrugById(id);
-        existing.setIsActive(false);
-        drugRepository.save(existing);
+        drugRepository.deleteById(id);
     }
 }

@@ -38,6 +38,12 @@ public class Drug {
     @Column(name = "hsn_code", length = 20)
     private String hsnCode;
 
+    @Column(name = "unit_price")
+    private Double unitPrice;
+
+    @Column(length = 500)
+    private String description;
+
     @Column(name = "is_active")
     private Boolean isActive = true;
 

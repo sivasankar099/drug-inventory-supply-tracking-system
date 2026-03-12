@@ -1,0 +1,11 @@
+.supplier-name {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  color: white;
+}
+
+.supplier-icon {
+  font-size: 1.1rem;
+}

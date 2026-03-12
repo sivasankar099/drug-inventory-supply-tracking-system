@@ -16,36 +16,28 @@ public class SupplierService {
         return supplierRepository.findAll();
     }
 
-    public List<Supplier> getActiveSuppliers() {
-        return supplierRepository.findByIsActiveTrue();
-    }
-
     public Supplier getSupplierById(Long id) {
         return supplierRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Supplier not found with id: " + id));
+                .orElseThrow(() -> new RuntimeException("Supplier not found"));
     }
 
     public Supplier createSupplier(Supplier supplier) {
-        if (supplierRepository.existsByEmail(supplier.getEmail())) {
-            throw new RuntimeException("Supplier already exists with email: " + supplier.getEmail());
-        }
         return supplierRepository.save(supplier);
     }
 
-    public Supplier updateSupplier(Long id, Supplier supplier) {
-        Supplier existing = getSupplierById(id);
-        existing.setName(supplier.getName());
-        existing.setContactName(supplier.getContactName());
-        existing.setEmail(supplier.getEmail());
-        existing.setPhone(supplier.getPhone());
-        existing.setAddress(supplier.getAddress());
-        existing.setGstNumber(supplier.getGstNumber());
-        return supplierRepository.save(existing);
+    public Supplier updateSupplier(Long id, Supplier supplierDetails) {
+        Supplier supplier = getSupplierById(id);
+        supplier.setName(supplierDetails.getName());
+        supplier.setEmail(supplierDetails.getEmail());
+        supplier.setPhone(supplierDetails.getPhone());
+        supplier.setAddress(supplierDetails.getAddress());
+        supplier.setCity(supplierDetails.getCity());
+        supplier.setState(supplierDetails.getState());
+        supplier.setIsActive(supplierDetails.getIsActive());
+        return supplierRepository.save(supplier);
     }
 
     public void deleteSupplier(Long id) {
-        Supplier existing = getSupplierById(id);
-        existing.setIsActive(false);
-        supplierRepository.save(existing);
+        supplierRepository.deleteById(id);
     }
 }
