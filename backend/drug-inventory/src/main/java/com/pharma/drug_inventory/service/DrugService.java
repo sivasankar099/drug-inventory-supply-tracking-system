@@ -20,6 +20,10 @@ public class DrugService {
         return drugRepository.findByIsActiveTrue();
     }
 
+    public List<Drug> getDrugsByCategory(Long categoryId) {
+        return drugRepository.findByCategoryId(categoryId);
+    }
+
     public Drug getDrugById(Long id) {
         return drugRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Drug not found"));

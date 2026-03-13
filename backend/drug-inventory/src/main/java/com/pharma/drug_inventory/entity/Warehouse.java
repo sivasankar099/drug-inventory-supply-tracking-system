@@ -19,6 +19,15 @@ public class Warehouse {
     @Column(length = 200)
     private String location;
 
+    @Column(length = 100)
+    private String city;
+
+    @Column(length = 100)
+    private String state;
+
+    @Column
+    private Integer capacity;
+
     @ManyToOne
     @JoinColumn(name = "manager_id")
     private User manager;
