@@ -1,13 +1,15 @@
 package com.pharma.drug_inventory.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "drug_categories")
 public class DrugCategory {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -15,6 +17,9 @@ public class DrugCategory {
     @Column(nullable = false, unique = true, length = 100)
     private String name;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(length = 255)
     private String description;
+
+    @Column(length = 10)
+    private String icon;
 }

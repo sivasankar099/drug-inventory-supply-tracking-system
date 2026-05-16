@@ -1,0 +1,34 @@
+# Node modules
+node_modules/
+
+# React build
+build/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables
+.env
+
+# Java target files
+target/
+
+# Compiled class files
+*.class
+
+# IntelliJ IDEA
+.idea/
+
+# VS Code
+.vscode/
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+# OS files
+.DS_Store
+Thumbs.db

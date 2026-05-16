@@ -4,12 +4,14 @@ import { categoryAPI } from '../../services/api';
 import { toast } from 'react-toastify';
 import './Categories.css';
 
+const ICONS = ['💊', '🧪', '🩺', '💉', '🌡️', '🧬', '❤️', '🦷', '👁️', '🧠'];
+
 const Categories = () => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [editCategory, setEditCategory] = useState(null);
-  const [form, setForm] = useState({ name: '', description: '' });
+  const [form, setForm] = useState({ name: '', description: '', icon: '💊' });
 
   useEffect(() => { fetchData(); }, []);
 
@@ -17,7 +19,7 @@ const Categories = () => {
     try {
       const res = await categoryAPI.getAll();
       setCategories(res.data);
-    } catch (error) {
+    } catch {
       toast.error('Failed to fetch categories!');
     } finally {
       setLoading(false);
@@ -37,7 +39,7 @@ const Categories = () => {
       setShowModal(false);
       resetForm();
       fetchData();
-    } catch (error) {
+    } catch {
       toast.error('Operation failed!');
     }
   };
@@ -48,30 +50,28 @@ const Categories = () => {
       await categoryAPI.delete(id);
       toast.success('Category deleted! 🗑️');
       fetchData();
-    } catch (error) {
+    } catch {
       toast.error('Delete failed!');
     }
   };
 
-  const handleEdit = (category) => {
-    setEditCategory(category);
-    setForm({ name: category.name || '', description: category.description || '' });
+  const handleEdit = (cat) => {
+    setEditCategory(cat);
+    setForm({ name: cat.name || '', description: cat.description || '', icon: cat.icon || '💊' });
     setShowModal(true);
   };
 
   const resetForm = () => {
-    setForm({ name: '', description: '' });
+    setForm({ name: '', description: '', icon: '💊' });
     setEditCategory(null);
   };
-
-  const icons = ['💊', '💉', '🩺', '🧪', '🩹', '❤️', '🧬', '🏥'];
 
   return (
     <Layout>
       <div className="page">
         <div className="page-header">
           <div>
-            <h1>🗂️ Category Management</h1>
+            <h1>💊 Category Management</h1>
             <p>Manage drug categories in the system</p>
           </div>
           <button className="btn-primary" onClick={() => { resetForm(); setShowModal(true); }}>
@@ -84,18 +84,16 @@ const Categories = () => {
         ) : (
           <div className="categories-grid">
             {categories.length === 0 ? (
-              <p className="no-data">No categories found!</p>
+              <div className="no-data">No categories found! Add your first category. 💊</div>
             ) : (
-              categories.map((cat, index) => (
+              categories.map((cat) => (
                 <div key={cat.id} className="category-card">
-                  <div className="category-icon">{icons[index % icons.length]}</div>
-                  <div className="category-info">
-                    <h3>{cat.name}</h3>
-                    <p>{cat.description || 'No description'}</p>
-                  </div>
+                  <span className="category-icon">{cat.icon || '💊'}</span>
+                  <h3>{cat.name}</h3>
+                  <p>{cat.description || 'No description'}</p>
                   <div className="category-actions">
-                    <button className="btn-edit" onClick={() => handleEdit(cat)}>✏️</button>
-                    <button className="btn-delete" onClick={() => handleDelete(cat.id)}>🗑️</button>
+                    <button className="btn-edit" onClick={() => handleEdit(cat)}>✏️ Edit</button>
+                    <button className="btn-delete" onClick={() => handleDelete(cat.id)}>🗑️ Delete</button>
                   </div>
                 </div>
               ))
@@ -115,16 +113,36 @@ const Categories = () => {
                   <label>Category Name *</label>
                   <input
                     type="text"
-                    placeholder="Enter category name"
+                    placeholder="e.g. Antibiotics"
                     value={form.name}
                     onChange={(e) => setForm({ ...form, name: e.target.value })}
                     required
                   />
                 </div>
                 <div className="form-group">
+                  <label>Icon</label>
+                  <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                    {ICONS.map(icon => (
+                      <button
+                        key={icon}
+                        type="button"
+                        onClick={() => setForm({ ...form, icon })}
+                        style={{
+                          fontSize: '1.5rem', padding: '8px', borderRadius: '8px', cursor: 'pointer',
+                          background: form.icon === icon ? '#f59e0b20' : '#1a1a1a',
+                          border: form.icon === icon ? '2px solid #f59e0b' : '1px solid #2a2a2a',
+                          transition: 'all 0.2s'
+                        }}
+                      >
+                        {icon}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <div className="form-group">
                   <label>Description</label>
                   <textarea
-                    placeholder="Enter description"
+                    placeholder="Brief description..."
                     value={form.description}
                     onChange={(e) => setForm({ ...form, description: e.target.value })}
                     rows="3"

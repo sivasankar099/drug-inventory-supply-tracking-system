@@ -1,14 +1,16 @@
 package com.pharma.drug_inventory.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 import java.time.LocalDateTime;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "suppliers")
 public class Supplier {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -16,16 +18,13 @@ public class Supplier {
     @Column(nullable = false, length = 150)
     private String name;
 
-    @Column(name = "contact_name", length = 100)
-    private String contactName;
-
-    @Column(length = 100)
+    @Column(unique = true, length = 100)
     private String email;
 
-    @Column(length = 15)
+    @Column(length = 20)
     private String phone;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(length = 255)
     private String address;
 
     @Column(length = 100)
@@ -33,9 +32,6 @@ public class Supplier {
 
     @Column(length = 100)
     private String state;
-
-    @Column(name = "gst_number", length = 20)
-    private String gstNumber;
 
     @Column(name = "is_active")
     private Boolean isActive = true;

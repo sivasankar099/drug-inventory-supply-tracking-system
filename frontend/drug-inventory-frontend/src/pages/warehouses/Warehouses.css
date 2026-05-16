@@ -47,3 +47,22 @@
 .modal-footer { display: flex; justify-content: flex-end; gap: 12px; padding-top: 8px; }
 .btn-cancel { background: #334155; color: #94a3b8; border: none; padding: 11px 20px; border-radius: 8px; font-size: 0.9rem; cursor: pointer; }
 .btn-cancel:hover { background: #475569; color: white; }
+
+/* ===== ANIMATIONS ===== */
+.page-header { animation: slideInDown 0.5s ease; }
+.page-header h1 { background: linear-gradient(135deg, #60a5fa, #a78bfa, #f472b6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.search-bar { animation: fadeInUp 0.5s ease 0.1s both; transition: all 0.3s ease; }
+.search-bar:focus-within { border-color: #7c3aed; box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.2); transform: translateY(-2px); }
+.table-container { animation: fadeInUp 0.6s ease 0.2s both; }
+.data-table tbody tr { animation: fadeInLeft 0.4s ease both; transition: all 0.3s ease; }
+.data-table tbody tr:nth-child(1) { animation-delay: 0.05s; }
+.data-table tbody tr:nth-child(2) { animation-delay: 0.1s; }
+.data-table tbody tr:nth-child(3) { animation-delay: 0.15s; }
+.data-table tbody tr:nth-child(4) { animation-delay: 0.2s; }
+.data-table tbody tr:nth-child(5) { animation-delay: 0.25s; }
+.data-table tbody tr:hover { transform: scale(1.01); box-shadow: 0 4px 20px rgba(124, 58, 237, 0.2); }
+.modal-overlay { animation: fadeInUp 0.3s ease; }
+.modal { animation: bounceIn 0.4s ease; }
+.btn-primary { position: relative; overflow: hidden; }
+.btn-primary::after { content: ''; position: absolute; top: 50%; left: 50%; width: 0; height: 0; background: rgba(255,255,255,0.2); border-radius: 50%; transform: translate(-50%, -50%); transition: width 0.6s, height 0.6s; }
+.btn-primary:hover::after { width: 300px; height: 300px; }
